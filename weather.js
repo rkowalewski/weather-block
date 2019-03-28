@@ -13,6 +13,7 @@ const sunnyIcon = "";
 const cloudyIcon = "";
 const rainIcon = "";
 const snowIcon = "";
+const clearIcon = "🌙";
 
 // load config
 const config = require('./config.json');
@@ -21,7 +22,6 @@ client(`http://api.openweathermap.org/data/2.5/weather?id=${CITYID}&units=metric
    .then(response => {
       const info = response.entity;
       let icon = sunnyIcon;
-      //console.log(info);
       switch (info.weather[0].main) {
       case 'Clouds':
          icon = cloudyIcon;
@@ -31,6 +31,9 @@ client(`http://api.openweathermap.org/data/2.5/weather?id=${CITYID}&units=metric
          break;
       case 'Snow':
          icon = snowIcon;
+         break;
+      case 'Clear':
+         icon = clearIcon;
          break;
       default:
          break;
