@@ -2,8 +2,10 @@
 const rest = require('rest');
 const mime = require('rest/interceptor/mime');
 
-const APIKEY = 'yourApiKeyFromOpenWeatherMap';
-const ZIPCODE = '30115';
+//const APIKEY = '< see config.json >';
+
+//Munich
+const CITYID = '3220838';
 
 const client = rest.wrap(mime);
 
@@ -12,11 +14,14 @@ const cloudyIcon = "";
 const rainIcon = "";
 const snowIcon = "";
 
-client(`http://api.openweathermap.org/data/2.5/weather?zip=${ZIPCODE}&units=imperial&APPID=${APIKEY}`)
+// load config
+const config = require('./config.json');
+
+client(`http://api.openweathermap.org/data/2.5/weather?id=${CITYID}&units=metric&APPID=${config.api_key}`)
    .then(response => {
       const info = response.entity;
       let icon = sunnyIcon;
-      console.log(info);
+      //console.log(info);
       switch (info.weather[0].main) {
       case 'Clouds':
          icon = cloudyIcon;
@@ -30,6 +35,6 @@ client(`http://api.openweathermap.org/data/2.5/weather?zip=${ZIPCODE}&units=impe
       default:
          break;
       }
-      let output = `${icon} ${Math.round(info.main.temp)}F`;
+      let output = `${icon} ${Math.round(info.main.temp)}°C`;
       console.log(output);
    });
